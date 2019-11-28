@@ -9,7 +9,7 @@
         <h2>Build eThor</h2> 
         <div class="code">
             <p class="comment"> # Download eThor/HoRSt sources </p>
-            <p>wget https://ethor.neocities.org/ethor-sources.zip</p>
+            <p>wget https://anon-code-drop.github.io/ethor-sources.zip</p>
             <p class="comment"> # Build z3 </p>
             <p>git clone https://github.com/Z3Prover/z3/</p>
             <p>cd z3/</p>
@@ -34,14 +34,14 @@
             <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmTestRunner --z3-param rlimit=200000 --predicate-inlining-strategy=linear --spec specs/evm-abstract-semantics-partial-or-optimized-memory-optimized-without-initialization.txt specs/evm-tests.txt -- ethereum-tests/VMTests/vmArithmeticTest/*json </p>
             <p class="comment"># Run all relevant tests (this may take several minutes)</p>
             <p class="comment"># Download names of relevant tests. This excludes 5 irrelevant test cases and 2 that do not terminate (the latter were counted as unknown in the evaluation)</p>
-            <p>wget https://ethor.neocities.org/relevant-tests</p>
+            <p>wget https://anon-code-drop.github.io/relevant-tests</p>
             <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmTestRunner --z3-param rlimit=200000 --predicate-inlining-strategy=linear --spec specs/evm-abstract-semantics-partial-or-optimized-memory-optimized-without-initialization.txt specs/evm-tests.txt -- $(cat relevant-tests)</p>
         </div>
 
         <h2>Run Reentrancy Queries</h2>
         <div  class="code">
             <p class="comment"># Download contract files with reconstructed control flow</p>
-            <p>wget https://ethor.neocities.org/contracts-with-reconstructed-control-flow.zip</p>
+            <p>wget https://anon-code-drop.github.io/contracts-with-reconstructed-control-flow.zip</p>
             <p>unzip contracts-with-reconstructed-control-flow.zip</p>
             <p class="comment"># Analyze random non-trivial contract</p>
             <p class="comment"># Analyze contract with no horn clause folding</p>
