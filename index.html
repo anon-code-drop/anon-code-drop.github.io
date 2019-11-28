@@ -2,64 +2,104 @@
 <html>
   <head>
     <title>Anonymous Code Drop for eThor</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+@font-face {
+  font-family: 'Fira Code';
+  src: 
+    url('https://unpkg.com/firacode/distr/woff2/FiraCode-Regular.woff2') format('woff2'),
+  url('woff2/FiraCode-Regular.woff2') format('woff2'),
+  url("woff/FiraCode-Regular.woff") format("woff");
+font-weight: 400;
+font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'Fira Code';
+  src:
+    url('https://unpkg.com/firacode/distr/woff2/FiraCode-Bold.woff2') format('woff2'),
+  url('woff2/FiraCode-Bold.woff2') format('woff2'),
+  url("woff/FiraCode-Bold.woff") format("woff");
+font-weight: 700;
+font-style: normal;
+}
+
+body {
+  font-family: 'Fira Code'; 
+  background-color: #ddd;
+  width: 60%;
+  margin: auto;
+}
+h1   {color: #333;}
+
+.code {
+  border: 3px;
+  padding: 5px;
+  border-color: #444;
+  border-style: solid;
+  background-color: #eee;
+}
+.comment {
+  font-weight: bold;
+}
+    </style>
     <head>
       <body>
         <h1>Anonymous Code Drop for eThor</h1> 
         <h2>Build eThor</h2> 
         <div class="code">
-            <p class="comment"> # Download eThor/HoRSt sources </p>
-            <p>wget https://anon-code-drop.github.io/ethor-sources.zip</p>
-            <p class="comment"> # Build z3 </p>
-            <p>git clone https://github.com/Z3Prover/z3/</p>
-            <p>cd z3/</p>
-            <p class="comment"> # checkout version that was used for evaluation</p>
-            <p>git checkout a2b18a37ec2a8c2a031956ae8b4bddf4340719e8</p>
-            <p>python scripts/mk_make.py --java</p>
-            <p>cd build/</p>
-            <p>make</p>
-            <p>cd ../..</p>
-            <p class="comment"># build eThor/HoRSt</p>
-            <p>unzip ethor-sources.zip </p>
-            <p>mkdir lib</p>
-            <p>cp z3/build/libz3.so z3/build/libz3java.so z3/build/com.microsoft.z3.jar lib</p>
-            <p>mvn -Dmaven.test.skip=true package</p>
+          <p class="comment"> # Download eThor/HoRSt sources </p>
+          <p>wget https://anon-code-drop.github.io/ethor-sources.zip</p>
+          <p class="comment"> # Build z3 </p>
+          <p>git clone https://github.com/Z3Prover/z3/</p>
+          <p>cd z3/</p>
+          <p class="comment"> # checkout version that was used for evaluation</p>
+          <p>git checkout a2b18a37ec2a8c2a031956ae8b4bddf4340719e8</p>
+          <p>python scripts/mk_make.py --java</p>
+          <p>cd build/</p>
+          <p>make</p>
+          <p>cd ../..</p>
+          <p class="comment"># build eThor/HoRSt</p>
+          <p>unzip ethor-sources.zip </p>
+          <p>mkdir lib</p>
+          <p>cp z3/build/libz3.so z3/build/libz3java.so z3/build/com.microsoft.z3.jar lib</p>
+          <p>mvn -Dmaven.test.skip=true package</p>
         </div>
 
         <h2>Run EVM Tests</h2>
         <div class="code">
-            <p class="comment"># Clone official EVM tests</p>
-            <p>git clone https://github.com/ethereum/tests/ ethereum-tests</p>
-            <p class="comment"># Run all arithmetc tests (this should take around one minute)</p>
-            <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmTestRunner --z3-param rlimit=200000 --predicate-inlining-strategy=linear --spec specs/evm-abstract-semantics-partial-or-optimized-memory-optimized-without-initialization.txt specs/evm-tests.txt -- ethereum-tests/VMTests/vmArithmeticTest/*json </p>
-            <p class="comment"># Run all relevant tests (this may take several minutes)</p>
-            <p class="comment"># Download names of relevant tests. This excludes 5 irrelevant test cases and 2 that do not terminate (the latter were counted as unknown in the evaluation)</p>
-            <p>wget https://anon-code-drop.github.io/relevant-tests</p>
-            <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmTestRunner --z3-param rlimit=200000 --predicate-inlining-strategy=linear --spec specs/evm-abstract-semantics-partial-or-optimized-memory-optimized-without-initialization.txt specs/evm-tests.txt -- $(cat relevant-tests)</p>
+          <p class="comment"># Clone official EVM tests</p>
+          <p>git clone https://github.com/ethereum/tests/ ethereum-tests</p>
+          <p class="comment"># Run all arithmetc tests (this should take around one minute)</p>
+          <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmTestRunner --z3-param rlimit=200000 --predicate-inlining-strategy=linear --spec specs/evm-abstract-semantics-partial-or-optimized-memory-optimized-without-initialization.txt specs/evm-tests.txt -- ethereum-tests/VMTests/vmArithmeticTest/*json </p>
+          <p class="comment"># Run all relevant tests (this may take several minutes)</p>
+          <p class="comment"># Download names of relevant tests. This excludes 5 irrelevant test cases and 2 that do not terminate (the latter were counted as unknown in the evaluation)</p>
+          <p>wget https://anon-code-drop.github.io/relevant-tests</p>
+          <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmTestRunner --z3-param rlimit=200000 --predicate-inlining-strategy=linear --spec specs/evm-abstract-semantics-partial-or-optimized-memory-optimized-without-initialization.txt specs/evm-tests.txt -- $(cat relevant-tests)</p>
         </div>
 
         <h2>Run Reentrancy Queries</h2>
         <div  class="code">
-            <p class="comment"># Download contract files with reconstructed control flow</p>
-            <p>wget https://anon-code-drop.github.io/contracts-with-reconstructed-control-flow.zip</p>
-            <p>unzip contracts-with-reconstructed-control-flow.zip</p>
-            <p class="comment"># Analyze random non-trivial contract</p>
-            <p class="comment"># Analyze contract with no horn clause folding</p>
-            <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=none --predicate-inlining-strategy=none --spec specs/evm-abstract-semantics-partial-or-optimized-memory-optimized.txt specs/queries-reentrancy.txt -- contracts-with-reconstructed-control-flow/0xaa1a6e3e6ef20068f7f8d8c835d2d22fd5116444.json</p>
-            <p class="comment"># Analyze contract with linear horn clause folding</p>
-            <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=aggressive --predicate-inlining-strategy=linear --spec specs/evm-abstract-semantics-partial-or-optimized-memory-optimized.txt specs/queries-reentrancy.txt -- contracts-with-reconstructed-control-flow/0xaa1a6e3e6ef20068f7f8d8c835d2d22fd5116444.json</p>
-            <p class="comment"># Analyze contract with exhaustive horn clause folding</p>
-            <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=aggressive --predicate-inlining-strategy=linearExhaustive --spec specs/evm-abstract-semantics-partial-or-optimized-memory-optimized.txt specs/queries-reentrancy.txt -- contracts-with-reconstructed-control-flow/0xaa1a6e3e6ef20068f7f8d8c835d2d22fd5116444.json</p>
-            <p class="comment"># Generate smt-lib files (see link below for download)</p>
-            <p> mkdir smt-out <span class="comment"># smt-lib files will be stored here</span></p>
-            <p class="comment"># Generate smt-lib files with no horn clause folding</p>
-            <p>java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=none --predicate-inlining-strategy=none --no-output-query-results --smt-out-dir smt-out --spec specs/evm-abstract-semantics-partial-or-optimized-memory-optimized.txt specs/queries-reentrancy.txt -- contracts-with-reconstructed-control-flow/0xb78e82956b6037e13b83c287aa9047f748c0f55a.json</p>
-            <p class="comment"># Generate smt-lib files with linear horn clause folding</p>
-            <p>java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=aggressive --predicate-inlining-strategy=linear --no-output-query-results --smt-out-dir smt-out --spec specs/evm-abstract-semantics-partial-or-optimized-memory-optimized.txt specs/queries-reentrancy.txt -- contracts-with-reconstructed-control-flow/0xb78e82956b6037e13b83c287aa9047f748c0f55a.json
-            </p>
-            <p class="comment"># Generate smt-lie files with exhaustive horn clause folding</p>
-            <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=aggressive --predicate-inlining-strategy=linearExhaustive --no-output-query-results --smt-out-dir smt-out --spec specs/evm-abstract-semantics-partial-or-optimized-memory-optimized.txt specs/queries-reentrancy.txt -- contracts-with-reconstructed-control-flow/0xb78e82956b6037e13b83c287aa9047f748c0f55a.json
-            </p>
+          <p class="comment"># Download contract files with reconstructed control flow</p>
+          <p>wget https://anon-code-drop.github.io/contracts-with-reconstructed-control-flow.zip</p>
+          <p>unzip contracts-with-reconstructed-control-flow.zip</p>
+          <p class="comment"># Analyze random non-trivial contract</p>
+          <p class="comment"># Analyze contract with no horn clause folding</p>
+          <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=none --predicate-inlining-strategy=none --spec specs/evm-abstract-semantics-partial-or-optimized-memory-optimized.txt specs/queries-reentrancy.txt -- contracts-with-reconstructed-control-flow/0xaa1a6e3e6ef20068f7f8d8c835d2d22fd5116444.json</p>
+          <p class="comment"># Analyze contract with linear horn clause folding</p>
+          <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=aggressive --predicate-inlining-strategy=linear --spec specs/evm-abstract-semantics-partial-or-optimized-memory-optimized.txt specs/queries-reentrancy.txt -- contracts-with-reconstructed-control-flow/0xaa1a6e3e6ef20068f7f8d8c835d2d22fd5116444.json</p>
+          <p class="comment"># Analyze contract with exhaustive horn clause folding</p>
+          <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=aggressive --predicate-inlining-strategy=linearExhaustive --spec specs/evm-abstract-semantics-partial-or-optimized-memory-optimized.txt specs/queries-reentrancy.txt -- contracts-with-reconstructed-control-flow/0xaa1a6e3e6ef20068f7f8d8c835d2d22fd5116444.json</p>
+          <p class="comment"># Generate smt-lib files (see link below for download)</p>
+          <p> mkdir smt-out <span class="comment"># smt-lib files will be stored here</span></p>
+          <p class="comment"># Generate smt-lib files with no horn clause folding</p>
+          <p>java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=none --predicate-inlining-strategy=none --no-output-query-results --smt-out-dir smt-out --spec specs/evm-abstract-semantics-partial-or-optimized-memory-optimized.txt specs/queries-reentrancy.txt -- contracts-with-reconstructed-control-flow/0xb78e82956b6037e13b83c287aa9047f748c0f55a.json</p>
+          <p class="comment"># Generate smt-lib files with linear horn clause folding</p>
+          <p>java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=aggressive --predicate-inlining-strategy=linear --no-output-query-results --smt-out-dir smt-out --spec specs/evm-abstract-semantics-partial-or-optimized-memory-optimized.txt specs/queries-reentrancy.txt -- contracts-with-reconstructed-control-flow/0xb78e82956b6037e13b83c287aa9047f748c0f55a.json
+          </p>
+          <p class="comment"># Generate smt-lie files with exhaustive horn clause folding</p>
+          <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=aggressive --predicate-inlining-strategy=linearExhaustive --no-output-query-results --smt-out-dir smt-out --spec specs/evm-abstract-semantics-partial-or-optimized-memory-optimized.txt specs/queries-reentrancy.txt -- contracts-with-reconstructed-control-flow/0xb78e82956b6037e13b83c287aa9047f748c0f55a.json
+          </p>
         </div>
 
         <h2>Additional Files</h2>
@@ -71,6 +111,6 @@
           <li><a href="contracts-with-reconstructed-control-flow.zip">Non-trivial contracts with reconstructed control flow</a> (605 contracts)</li>
           <li><a href="smt-files.tar.xz">SMT sources used for experiments</a> (42 MiB, 2.3 GiB uncompressed)</li>
         </ul>
-          
+
       </body>
 </html>
