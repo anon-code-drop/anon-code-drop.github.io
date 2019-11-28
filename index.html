@@ -71,11 +71,11 @@ h1   {color: #333;}
           <p class="comment"># Clone official EVM tests</p>
           <p>git clone https://github.com/ethereum/tests/ ethereum-tests</p>
           <p class="comment"># Run all arithmetc tests (this should take around one minute)</p>
-          <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmTestRunner --z3-param rlimit=200000 --predicate-inlining-strategy=linear --spec specs/evm-abstract-semantics-partial-or-optimized-memory-optimized-without-initialization.txt specs/evm-tests.txt -- ethereum-tests/VMTests/vmArithmeticTest/*json </p>
+          <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmTestRunner --preanalysis --z3-param rlimit=200000 --predicate-inlining-strategy=linearExhaustive --spec specs/evm-abstract-semantics-partial-or-optimized-memory-optimized-without-initialization.txt specs/evm-tests.txt -- ethereum-tests/VMTests/vmArithmeticTest/*json </p>
           <p class="comment"># Run all relevant tests (this may take several minutes)</p>
           <p class="comment"># Download names of relevant tests. This excludes 5 irrelevant test cases and 2 that do not terminate (the latter were counted as unknown in the evaluation)</p>
           <p>wget https://anon-code-drop.github.io/relevant-tests</p>
-          <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmTestRunner --z3-param rlimit=200000 --predicate-inlining-strategy=linear --spec specs/evm-abstract-semantics-partial-or-optimized-memory-optimized-without-initialization.txt specs/evm-tests.txt -- $(cat relevant-tests)</p>
+          <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmTestRunner --preanalysis --z3-param rlimit=200000 --predicate-inlining-strategy=linear --spec specs/evm-abstract-semantics-partial-or-optimized-memory-optimized-without-initialization.txt specs/evm-tests.txt -- $(cat relevant-tests)</p>
         </div>
 
         <h2>Run Reentrancy Queries</h2>
