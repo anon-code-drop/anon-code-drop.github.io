@@ -97,7 +97,7 @@ h1   {color: #333;}
           <p class="comment"># Generate smt-lib files with linear horn clause folding</p>
           <p>java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=aggressive --predicate-inlining-strategy=linear --no-output-query-results --smt-out-dir smt-out --spec specs/evm-abstract-semantics-partial-or-optimized-memory-optimized.txt specs/queries-reentrancy.txt -- contracts-with-reconstructed-control-flow/0xb78e82956b6037e13b83c287aa9047f748c0f55a.json
           </p>
-          <p class="comment"># Generate smt-lie files with exhaustive horn clause folding</p>
+          <p class="comment"># Generate smt-lib files with exhaustive horn clause folding</p>
           <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=aggressive --predicate-inlining-strategy=linearExhaustive --no-output-query-results --smt-out-dir smt-out --spec specs/evm-abstract-semantics-partial-or-optimized-memory-optimized.txt specs/queries-reentrancy.txt -- contracts-with-reconstructed-control-flow/0xb78e82956b6037e13b83c287aa9047f748c0f55a.json
           </p>
         </div>
