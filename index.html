@@ -69,13 +69,13 @@ h1   {color: #333;}
         <h2>Run EVM Tests</h2>
         <div class="code">
           <p class="comment"># Clone official EVM tests</p>
-          <p>git clone https://github.com/ethereum/tests/ ethereum-tests</p>
+          <p>git clone --depth 1 --single-branch https://github.com/ethereum/tests/ ethereum-tests</p>
           <p class="comment"># Run all arithmetc tests (this should take around one minute)</p>
-          <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmTestRunner --preanalysis --z3-param timeout=1000 --predicate-inlining-strategy=linearExhaustive --spec specs/evm-abstract-semantics-invariant-two-level-without-initialization.txt specs/evm-tests-two-level.txt -- ethereum-tests/VMTests/vmArithmeticTest/*json </p>
+          <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmTestRunner --preanalysis --z3-param timeout=1000 --prune-strategy=aggressive --predicate-inlining-strategy=linearExhaustive --spec specs/evm-abstract-semantics-invariant-two-level-without-initialization.txt specs/evm-tests-two-level.txt -- ethereum-tests/VMTests/vmArithmeticTest/*json </p>
           <p class="comment"># Run all relevant tests (this may take several minutes)</p>
           <p class="comment"># Download names of relevant tests. This excludes 5 irrelevant test cases and 2 whose folding does not terminate (the latter were counted as unknown in the evaluation)</p>
           <p>wget https://anon-code-drop.github.io/relevant-tests</p>
-          <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmTestRunner --preanalysis --z3-param timeout=1000 --predicate-inlining-strategy=linear --spec specs/evm-abstract-semantics-invariant-two-level-without-initialization.txt specs/evm-tests-two-level.txt -- $(cat relevant-tests)</p>
+          <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmTestRunner --preanalysis --z3-param timeout=1000 --prune-strategy=aggressive --predicate-inlining-strategy=linearExhaustive --spec specs/evm-abstract-semantics-invariant-two-level-without-initialization.txt specs/evm-tests-two-level.txt -- $(cat relevant-tests)</p>
         </div>
 
         <h2>Run Reentrancy Queries</h2>
@@ -85,21 +85,36 @@ h1   {color: #333;}
           <p>unzip contracts-with-reconstructed-control-flow.zip</p>
           <p class="comment"># Analyze random non-trivial contract</p>
           <p class="comment"># Analyze contract with no horn clause folding</p>
-          <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=none --predicate-inlining-strategy=none --spec specs/evm-abstract-semantics-invariant-two-level.txt specs/queries-reentrancy-two-level.txt -- contracts-with-reconstructed-control-flow/0xb78e82956b6037e13b83c287aa9047f748c0f55a.json</p>
+          <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=none --predicate-inlining-strategy=none --spec specs/evm-abstract-semantics-invariant-two-level.txt specs/queries-reentrancy-two-level.txt -- contracts-with-reconstructed-control-flow/0x82df5022fbcfdd877830371d7713f0181a554c9c.json</p>
           <p class="comment"># Analyze contract with linear horn clause folding</p>
-          <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=aggressive --predicate-inlining-strategy=linear --spec specs/evm-abstract-semantics-invariant-two-level.txt specs/queries-reentrancy-two-level.txt -- contracts-with-reconstructed-control-flow/0xb78e82956b6037e13b83c287aa9047f748c0f55a.json</p>
+          <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=aggressive --predicate-inlining-strategy=linear --spec specs/evm-abstract-semantics-invariant-two-level.txt specs/queries-reentrancy-two-level.txt -- contracts-with-reconstructed-control-flow/0x82df5022fbcfdd877830371d7713f0181a554c9c.json</p>
           <p class="comment"># Analyze contract with exhaustive horn clause folding</p>
-          <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=aggressive --predicate-inlining-strategy=linearExhaustive --spec specs/evm-abstract-semantics-invariant-two-level.txt specs/queries-reentrancy-two-level.txt -- contracts-with-reconstructed-control-flow/0xb78e82956b6037e13b83c287aa9047f748c0f55a.json</p>
+          <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=aggressive --predicate-inlining-strategy=linearExhaustive --spec specs/evm-abstract-semantics-invariant-two-level.txt specs/queries-reentrancy-two-level.txt -- contracts-with-reconstructed-control-flow/0x82df5022fbcfdd877830371d7713f0181a554c9c.json</p>
           <p class="comment"># Generate smt-lib files (see link below for download)</p>
           <p> mkdir smt-out <span class="comment"># smt-lib files will be stored here</span></p>
           <p class="comment"># Generate smt-lib files with no horn clause folding</p>
-          <p>java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=none --predicate-inlining-strategy=none --no-output-query-results --smt-out-dir smt-out --spec specs/evm-abstract-semantics-invariant-two-level.txt specs/queries-reentrancy-two-level.txt -- contracts-with-reconstructed-control-flow/0xb78e82956b6037e13b83c287aa9047f748c0f55a.json</p>
+          <p>java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=none --predicate-inlining-strategy=none --no-output-query-results --smt-out-dir smt-out --spec specs/evm-abstract-semantics-invariant-two-level.txt specs/queries-reentrancy-two-level.txt -- contracts-with-reconstructed-control-flow/0x82df5022fbcfdd877830371d7713f0181a554c9c.json</p>
+          <p> z3/build/z3 smt-out/0x82df5022fbcfdd877830371d7713f0181a554c9c.json.smt </p>
           <p class="comment"># Generate smt-lib files with linear horn clause folding</p>
-          <p>java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=aggressive --predicate-inlining-strategy=linear --no-output-query-results --smt-out-dir smt-out --spec specs/evm-abstract-semantics-invariant-two-level.txt specs/queries-reentrancy-two-level.txt -- contracts-with-reconstructed-control-flow/0xb78e82956b6037e13b83c287aa9047f748c0f55a.json
+          <p>java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=aggressive --predicate-inlining-strategy=linear --no-output-query-results --smt-out-dir smt-out --spec specs/evm-abstract-semantics-invariant-two-level.txt specs/queries-reentrancy-two-level.txt -- contracts-with-reconstructed-control-flow/0x82df5022fbcfdd877830371d7713f0181a554c9c.json
           </p>
+          <p> z3/build/z3 smt-out/0x82df5022fbcfdd877830371d7713f0181a554c9c.json.smt </p>
           <p class="comment"># Generate smt-lib files with exhaustive horn clause folding</p>
-          <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=aggressive --predicate-inlining-strategy=linearExhaustive --no-output-query-results --smt-out-dir smt-out --spec specs/evm-abstract-semantics-invariant-two-level.txt specs/queries-reentrancy-two-level.txt -- contracts-with-reconstructed-control-flow/0xb78e82956b6037e13b83c287aa9047f748c0f55a.json
+          <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --preanalysis --prune-strategy=aggressive --predicate-inlining-strategy=linearExhaustive --no-output-query-results --smt-out-dir smt-out --spec specs/evm-abstract-semantics-invariant-two-level.txt specs/queries-reentrancy-two-level.txt -- contracts-with-reconstructed-control-flow/0x82df5022fbcfdd877830371d7713f0181a554c9c.json
+          <p> z3/build/z3 smt-out/0x82df5022fbcfdd877830371d7713f0181a554c9c.json.smt </p>
           </p>
+        </div>
+
+
+        <h2>Verify SafeMath library</h2>
+        <div class="code">
+          <p class="comment"> # Download SafeMath sources </p>
+          <p>wget https://anon-code-drop.github.io/SafeMath.zip</p>
+          <p>unzip SafeMath.zip</p>
+          <p class="comment"> # Run test for addition</p>
+          <p>LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --spec specs/SafeMath/evm-abstract-semantics-invariant-two-level-calldata.txt  specs/SafeMath/safemath-add-queries.txt -- SafeMath/safemath-add.json</p>
+          <p class="comment">Run tests for all functions</p>
+          <p>for i in add sub mul div mod; do LD_LIBRARY_PATH=lib/:$LD_LIBRARY_PATH java -cp target/eThor-1.0-SNAPSHOT.jar:lib/com.microsoft.z3.jar secpriv.horst.evm.EvmHorstCompiler --spec specs/SafeMath/evm-abstract-semantics-invariant-two-level-calldata.txt  specs/SafeMath/safemath-$i-queries.txt -- SafeMath/safemath-$i.json; done</p>
         </div>
 
         <h2>Additional Files</h2>
@@ -109,7 +124,7 @@ h1   {color: #333;}
           <li><a href="contracts.zip">Contracts in benchmark</a> (720 Contracts)</li>
           <li><a href="contracts-with-reconstructed-control-flow.zip">Non-trivial contracts with reconstructed control flow</a> (605 contracts)</li>
           <li><a href="contracts-with-sources.zip">Contracts in benchmark which have sources</a> (601 Contracts)</li>
-          <li><a href="smt-files.tar.xz">SMT sources used for experiments</a> (42 MiB, 2.3 GiB uncompressed)</li>
+          <li><a href="smt-files.tar.xz">SMT sources used for experiments</a> (42 MiB, 4.5 GiB uncompressed)</li>
         </ul>
 
       </body>
